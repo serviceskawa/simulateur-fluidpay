@@ -6,7 +6,8 @@
     <title>Simulateur Salaire</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.autotable.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.autotable.min.js"></script> -->
+     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mini.min.js"></script>
     <style>
         /* Custom styles for the modal overlay */
@@ -184,8 +185,6 @@
                     </tbody>
                 </table>
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <button onclick="exportToPDF('${elementId}')" class="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-900">Export PDF</button>
-                    <button onclick="exportToExcel('${elementId}')" class="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-900">Export Excel</button>
                     <button onclick="openModal('${elementId}')" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-800">Générer fiche de paie</button>
                 </div>
             `;
