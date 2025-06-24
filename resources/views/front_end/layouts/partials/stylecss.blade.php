@@ -12,3 +12,10 @@
 <link rel="stylesheet" href="{{asset('views_assets/front_end/ css/jquery.mCustomScrollbar.min.css')}}">
 <!-- Tweaks for older IEs-->
 <link rel="stylesheet" href="css/font-awesome.css">
+
+<!-- Bootstrap Bundle JS (inclut Popper.js) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+@livewireStyles
+
+
