@@ -1,17 +1,22 @@
 <?php
-namespace App\Livewire;
 
+namespace App\Livewire\FrontEnd\SalaryCalculatorPage;
+
+use Illuminate\Support\Carbon;
 use Livewire\Component;
-use Carbon\Carbon;
 
-class CalculSalaire extends Component
+class NormalCalculatorSalaryPage extends Component
 {
+
+
     public $salaire_brut, $mois_brut;
     public $cnss_ouvriere_brut = 3.6;
     public $cnss_patronale_brut = 16.4;
     public $vps_brut = 4;
 
     public $resultats = [];
+    public $showModal = false;
+
 
     public function mount()
     {
@@ -89,6 +94,8 @@ class CalculSalaire extends Component
         }
 
 
+
+
         $cnssOuvriereRate = $this->cnss_ouvriere_brut / 100;
         $cnssPatronaleRate = $this->cnss_patronale_brut / 100;
         $vpsRate = $this->vps_brut / 100;
@@ -112,8 +119,21 @@ class CalculSalaire extends Component
         ];
     }
 
+    public function messages()
+{
+    return [
+        'salaire_brut.required' => 'Entrer un salaire brut est obligatoire.',
+        'salaire_brut.numeric'  => 'Le salaire brut doit être un nombre.',
+        'salaire_brut.min'      => 'Le salaire brut ne peut pas être négatif.',
+    ];
+}
+
+
+
+
+
     public function render()
     {
-        return view('livewire.calcul-salaire');
+        return view('livewire.front-end.salary-calculator-page.normal-calculator-salary-page');
     }
 }

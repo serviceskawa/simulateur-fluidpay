@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\FrontEnd\SalaryCalculatorPage;
 
 use Livewire\Component;
 use Carbon\Carbon;
+ use Barryvdh\DomPDF\Facade\Pdf;
 
-class CalculSalaireNet extends Component
+class InverseCalculatorSalaryPage extends Component
 {
-    public $salaire_brut;
+
+     public $salaire_brut;
     public $salaire_net;
+    public $shareOption = 'whatsapp'; // Valeur par défaut
+
+    public $email = '';
 
     public $mois_brut;
     public $mois_inverse;
+    public $showShareModal = false;
 
     public $cnss_ouvriere = 3.6;
     public $cnss_patronale = 16.4;
@@ -50,6 +56,20 @@ $this->mois_inverse = ucfirst(strtolower($this->mois_inverse)); // => "Juin"
     }
 
 
+    public function openPdf()
+{
+    // stocke en session ou crée une URL signée avec les données nécessaires
+    session(['payslip_data' => [
+        'periode_paie' => $this->periode_paie,
+        'date_paiement' => $this->date_paiement,
+        'nom_employe' => $this->nom_employe,
+        'resultats' => $this->resultats,
+    ]]);
+
+    $this->dispatchBrowserEvent('open-pdf');
+}
+
+
 
 
 public $showModal = false;
@@ -85,6 +105,62 @@ public function closeModal()
         }
         return ['montant' => 0, 'label' => 'Aucune taxe spécifique'];
     }
+
+
+    // En haut du fichier
+
+// ...
+
+public function generatePayslipPdf()
+{
+    // Valide les champs nécessaires pour la fiche de paie
+    $this->validate([
+        'periode_paie' => 'required|string|max:255',
+        'date_paiement' => 'required|date',
+        'nom_employe' => 'required|string|max:255',
+        'date_embauche' => 'required|date',
+        'type_contrat' => 'required|string|max:100',
+        'num_cnss_employe' => 'required|string|max:50',
+        'num_cnss_employeur' => 'required|string|max:50',
+        'poste_employe' => 'required|string|max:255',
+        'date_fin_contrat' => 'nullable|date|after_or_equal:date_embauche',
+        'ifu' => 'required|string|max:50',
+        // Pour images, tu peux gérer l'upload avant ou adapter si c'est un chemin/url
+        'logo_entreprise' => 'nullable|string|max:255',
+        'signature_employeur' => 'nullable|string|max:255',
+    ]);
+
+    // Prépare les données à passer à la vue PDF
+    $data = [
+        'periode_paie' => $this->periode_paie,
+        'date_paiement' => $this->date_paiement,
+        'nom_employe' => $this->nom_employe,
+        'date_embauche' => $this->date_embauche,
+        'type_contrat' => $this->type_contrat,
+        'num_cnss_employe' => $this->num_cnss_employe,
+        'num_cnss_employeur' => $this->num_cnss_employeur,
+        'poste_employe' => $this->poste_employe,
+        'date_fin_contrat' => $this->date_fin_contrat,
+        'ifu' => $this->ifu,
+        'logo_entreprise' => $this->logo_entreprise,
+        'signature_employeur' => $this->signature_employeur,
+        'resultats' => $this->resultats,
+    ];
+
+    // Génère le PDF depuis la vue 'pdf.payslip'
+    $pdf = Pdf::loadView('pdf.payslip', $data);
+
+    // Ferme la modale
+    $this->showModal = false;
+
+    // Retourne la réponse pour déclencher le téléchargement du PDF
+    return response()->streamDownload(
+        fn () => print($pdf->output()),
+        "fiche-de-paie-{$this->periode_paie}.pdf"
+    );
+}
+
+
 
     // Calcul CNSS ou VPS
     public function calcCNSS(float $montant, float $taux): float
@@ -204,8 +280,27 @@ public function closeModal()
         ];
     }
 
+    public function downloadPdf()
+{
+    if ($this->shareOption === 'email') {
+        // envoyer par mail à $this->email
+    } elseif ($this->shareOption === 'whatsapp') {
+        // ouvrir WhatsApp dans le navigateur (géré côté front si besoin)
+    }
+
+    // Puis déclenche le téléchargement
+    $this->dispatchBrowserEvent('download-pdf', [
+        'pdfData' => base64_encode($this->generatePdf()->output()),
+        'filename' => 'fiche_paie.pdf',
+    ]);
+
+    $this->showShareModal = false;
+}
+
+
+
     public function render()
     {
-        return view('livewire.calcul-salaire-net');
+        return view('livewire.front-end.salary-calculator-page.inverse-calculator-salary-page');
     }
 }
