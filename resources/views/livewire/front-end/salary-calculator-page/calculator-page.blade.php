@@ -1,6 +1,6 @@
- <div class="container-fluid my-5" style="font-family: 'Poppins', sans-serif mt-5">
+ <div class="container-fluid my-5" style="font-family: 'Noto Sans Kawi', sans-serif; mt-5">
 
-     <h1 class="mb-5 text-center ">Simulateur de Salaire</h1>
+     <h4 class="mb-5 text-center fw-semibold ">Simulateur de Salaire</h4>
 
      <!-- Section Calcul Salaire Brut -->
      <livewire:front-end.salary-calculator-page.normal-calculator-salary-page />

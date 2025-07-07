@@ -5,7 +5,7 @@
         <i class="fa {{ $icon }} me-1"></i>
     @endif
 
-    
+
     @if(trim($slot))
         {{ $slot }}
     @endif

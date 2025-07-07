@@ -2,7 +2,7 @@
     'name',
     'label' => '',
     'options' => [],
-    'labelClass' => 'form-label d-block mb-2 fw-semibold text-muted text-start' {{-- text-start pour aligner à gauche --}}
+    'labelClass' => 'form-label d-block mb-2 text-muted text-start' {{-- text-start pour aligner à gauche --}}
 ])
 
 <div class="mb-4">

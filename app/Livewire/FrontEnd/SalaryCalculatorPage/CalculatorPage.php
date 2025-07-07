@@ -2,6 +2,7 @@
 
 namespace App\Livewire\FrontEnd\SalaryCalculatorPage;
 
+use App\Services\Payslip\GeneratePdf;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;

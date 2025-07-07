@@ -1,56 +1,69 @@
-<footer class="bg-dark text-light py-5" style="max-height: 634px">
+<style>
+  .footer-title {
+    color: #9CA3AF;
+  }
+
+  .footer-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 12px;
+  }
+
+  .footer-link:hover {
+    color: #9CA3AF;
+    text-decoration: none;
+  }
+  .small{
+
+    font-size: 12px;
+  }
+</style>
+
+<footer class="bg-dark text-light py-5" role="contentinfo">
   <div class="container">
-    <div class="row">
-      <!-- Adresse -->
-      <div class="col-md-4">
-        <h5 class="mb-3">Adresse</h5>
-
-          <p>Sèdomey<br>
-          Godomey,
-           Abomey-Calavi<br>
-          Atlantique<br>
-          Bénin<br>
-          <hr class="bg-light" style="height: 1px; opacity: 0.5; margin: 1rem 0; weight: 2px">
-
-          FluidPay est une solution proposée par<br> KAWA SERVICES.
-          Pour en savoir plus ou <br>pour toute question, contactez-nous par<br> email à
-          <a href="mailto:support@fluidpay.link" class="text-decoration-underline text-light">support@fluidpay.link</a>.
+    <div class="row gy-4">
+      <div class="col-md-3 d-flex flex-column align-items-start">
+        <div class="mb-3">
+          <a href="#" class="d-inline-block">
+            <img src="{{ asset('assets/img/fluidpay_logos.png') }}" alt="Logo" style="max-height: 80px;">
+          </a>
+        </div>
+        <p class="small mb-0">
+          <strong>Sèdomey</strong><br>
+          Godomey, Abomey-Calavi<br>
+          Atlantique, Bénin<br>
+          —<br>
+          <strong>FluidPay</strong> est une solution proposée par <strong>KAWA SERVICES</strong>.<br>
+          Contact :
+          <a href="mailto:support@fluidpay.link" class="footer-link fw-bold">support@fluidpay.link</a>
         </p>
       </div>
-
-      <!-- Liens Entreprise -->
-      <div class="col-md-4 mb-4">
-        <h5 class="mb-3">Entreprise</h5>
+      <div class="col-md-3">
+        <h5 class="fw-bold mb-3 footer-title">Entreprise</h5>
         <ul class="list-unstyled">
-          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" class="text-light text-decoration-none">Nous rejoindre</a></li>
-          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" class="text-light text-decoration-none">Contact</a></li>
-          <li><a href="https://site.fluidpay.link/terms-of-service/" class="text-light text-decoration-none">Conditions générales d'utilisation</a></li>
-          <li><a href="https://site.fluidpay.link/privacy-policy/" class="text-light text-decoration-none">Politique de confidentialité</a></li>
+          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" target="_blank" class="footer-link">Nous rejoindre</a></li>
+          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" target="_blank" class="footer-link">Contact</a></li>
+          <li><a href="https://site.fluidpay.link/terms-of-service/" class="footer-link">Conditions générales d'utilisation</a></li>
+          <li><a href="https://site.fluidpay.link/privacy-policy/" class="footer-link">Politique de confidentialité</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5 class="fw-bold mb-3 footer-title">Produit</h5>
+        <ul class="list-unstyled">
+          <li><a href="https://crm.fluidpay.link/forms/wtl/a2a382e0ebe26c3e4696bbafb7dd4468?styled=1&with_logo=1." target="_blank" class="footer-link">Essayer FluidPay gratuitement</a></li>
+          <li><a href="https://site.fluidpay.link/" class="footer-link">Caractéristiques</a></li>
+          <li><a href="https://panel.fluidpay.link/login" target="_blank" class="footer-link">Connexion</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3" style="font-size: 12px;">
+        <h5 class="fw-bold mb-3 footer-title">Pays</h5>
+        <ul class="list-unstyled">
+          <li><span class="text-light">Bénin</span></li>
+          <li><span class="text-light">Togo (bientôt)</span></li>
         </ul>
       </div>
 
-     <!-- Colonne Produit + Pays côte à côte -->
-<div class="col-md-4 mb-4">
-  <div class="row">
-    <!-- Produit -->
-    <div class="col-6">
-      <h5 class="mb-3">Produit</h5>
-      <ul class="list-unstyled">
-        <li><a href="https://crm.fluidpay.link/forms/wtl/a2a382e0ebe26c3e4696bbafb7dd4468?styled=1&with_logo=1" class="text-light text-decoration-none">Essayer FluidPay gratuitement</a></li>
-        <li><a href="https://site.fluidpay.link/#" class="text-light text-decoration-none">Caractéristiques</a></li>
-        <li><a href="https://fluidpay.link/login" class="text-light text-decoration-none">Connexion</a></li>
-      </ul>
-    </div>
-
-    <!-- Pays -->
-    <div class="col-6">
-      <h5 class="mb-3">Pays</h5>
-      <ul class="list-unstyled">
-        <li>Bénin</li>
-        <li>Togo (bientôt)</li>
-      </ul>
     </div>
   </div>
-</div>
-
 </footer>

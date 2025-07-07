@@ -12,6 +12,9 @@
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
+
+      <link rel="icon" href="{{ asset('assets/img/fluidpay_logos.png') }}" type="image/png" />
+
       @include('front_end.layouts.partials.stylecss')
    </head>
    <body>
