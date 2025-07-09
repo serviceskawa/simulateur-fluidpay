@@ -14,16 +14,11 @@ use App\Models\Visits;
 
 class NormalCalculatorSalaryPage extends Component
 {
-
-
-
-
     public $salaire_brut, $mois_brut;
     public $cnss_ouvriere_brut = 3.6;
     public $cnss_patronale_brut = 16.4;
     public $vps_brut = 4;
     public $coutTotalEmployeur = 0;
-
     public $resultats = [];
     public $showModal = false;
 
@@ -31,40 +26,30 @@ class NormalCalculatorSalaryPage extends Component
         $type_contrat, $num_cnss_employe, $num_cnss_employeur, $poste_employe, $adresse_entreprise,
         $ifu_employe, $ifu_employeur, $signature_employeur;
 
-
     public function mount()
     {
         Carbon::setLocale('fr');
         $this->mois_brut = ucfirst(Carbon::now()->isoFormat('MMMM'));
         $this->periode_paie = ucfirst(Carbon::now()->translatedFormat('F Y'));
-        // ex: 2025-06-30
-
-
-
     }
-
-
 
     public function enregistrerVisits($type)
-{
-    $ip = request()->ip();
+    {
+        $ip = request()->ip();
 
-    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+        $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
 
-    if ($visits) {
-        $visits->increment('calcul_count');
-    } else {
-        Visits::create([
-            'ip' => $ip,
-            'type_calcul' => $type,
-            'calcul_count' => 1,
-            'pdf_count' => 0,
-        ]);
+        if ($visits) {
+            $visits->increment('calcul_count');
+        } else {
+            Visits::create([
+                'ip' => $ip,
+                'type_calcul' => $type,
+                'calcul_count' => 1,
+                'pdf_count' => 0,
+            ]);
+        }
     }
-}
-
-
-
     public function getTaxRate(int $income): float
     {
         $income = floor($income / 1000) * 1000;
@@ -124,12 +109,7 @@ class NormalCalculatorSalaryPage extends Component
         }
         return (int) round($estimatedGross);
     }
-
-
     public function calculer()
-
-
-
     {
 
         $this->enregistrerVisits('brut');
@@ -140,8 +120,6 @@ class NormalCalculatorSalaryPage extends Component
         }
 
         $this->periode_paie = ucfirst($this->mois_brut) . ' ' . date('Y');
-
-
         $cnssOuvriereRate = $this->cnss_ouvriere_brut / 100;
         $cnssPatronaleRate = $this->cnss_patronale_brut / 100;
         $vpsRate = $this->vps_brut / 100;
@@ -156,8 +134,6 @@ class NormalCalculatorSalaryPage extends Component
 
         $coutTotalEmployeur = $this->salaire_brut + $cnssPatronale + $vps;
         $this->coutTotalEmployeur = $coutTotalEmployeur;
-
-
 
         $this->resultats = [
             ['label' => 'Salaire Brut', 'val' => number_format($this->salaire_brut, 0, ',', ' ')],
@@ -178,29 +154,23 @@ class NormalCalculatorSalaryPage extends Component
             'salaire_brut.min'      => 'Le salaire brut ne peut pas être négatif.',
         ];
     }
+    public function incrementerPDF($type)
+    {
+        $ip = request()->ip();
 
+        $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
 
-     public function incrementerPDF($type)
-{
-    $ip = request()->ip();
-
-    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
-
-    if ($visits) {
-        $visits->increment('pdf_count');
+        if ($visits) {
+            $visits->increment('pdf_count');
+        }
     }
-}
-
-
     public function generatePayslipPdf()
     {
 
+        $typeCalcul = $this->type_calcul ?? 'brut';
 
-
-$typeCalcul = $this->type_calcul ?? 'brut';
-
-    // Incrémente pdf_count dans la base
-    $this->incrementerPDF($typeCalcul);
+        // Incrémente pdf_count dans la base
+        $this->incrementerPDF($typeCalcul);
 
 
         $data = [
