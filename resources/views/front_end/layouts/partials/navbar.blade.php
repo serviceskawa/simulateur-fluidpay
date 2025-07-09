@@ -34,7 +34,7 @@
     </li>
     <li><hr class="dropdown-divider my-1"></li>
     <li>
-      <a class="dropdown-item py-2 px-3" href="http://localhost:8000/calculator-page#simulateur">Calculateur de salaire</a>
+      <a class="dropdown-item py-2 px-3" href="http://localhost:8000/">Calculateur de salaire</a>
     </li>
     <li><hr class="dropdown-divider my-1"></li>
     <li>
