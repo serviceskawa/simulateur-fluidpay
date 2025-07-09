@@ -3,8 +3,9 @@
     'label' => '',
     'type' => 'text',
     'placeholder' => '',
-    'class' => '',
-    'labelClass' => 'form-label fw-semibold text-start d-block',
+    'class' => 'form-control',
+    'labelClass' => 'form-label text-start d-block',
+    'inputClass' => '', // ✅ nouvelle prop pour personnaliser le champ
 ])
 
 <div>
@@ -17,6 +18,6 @@
     <input type="{{ $type }}"
            name="{{ $name }}"
            id="{{ $name }}"
-           {{ $attributes->merge(['class' => $class]) }}
-           placeholder="{{ $placeholder }}">
+           placeholder="{{ $placeholder }}"
+           {{ $attributes->merge(['class' => $class . ' ' . $inputClass]) }} />
 </div>
