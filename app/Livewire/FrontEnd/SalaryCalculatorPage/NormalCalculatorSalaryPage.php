@@ -89,7 +89,7 @@ class NormalCalculatorSalaryPage extends Component
     {
         $low = 0;
         $high = 5000000;
-        $tolerance = 1;
+        $tolerance = 0.01;
         $estimatedGross = 0;
 
         for ($i = 0; $i < 200; $i++) {
