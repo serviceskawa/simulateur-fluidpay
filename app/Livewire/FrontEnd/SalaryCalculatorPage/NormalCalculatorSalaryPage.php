@@ -4,13 +4,11 @@ namespace App\Livewire\FrontEnd\SalaryCalculatorPage;
 
 use Illuminate\Support\Carbon;
 use Livewire\Component;
-use App\Services\Payslip\GeneratePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Visit;
 use Stevebauman\Location\Facades\Location;
 use App\Models\Visits;
-
-
+use App\Services\Payslip\GeneratePdf;
 
 class NormalCalculatorSalaryPage extends Component
 {
@@ -21,6 +19,12 @@ class NormalCalculatorSalaryPage extends Component
     public $coutTotalEmployeur = 0;
     public $resultats = [];
     public $showModal = false;
+    // public GeneratePdf $generatepdf;
+
+    // public function boot(GeneratePdf $generatepdf)
+    // {
+    //     $this->generatepdf = $generatepdf;
+    // }
 
     public $periode_paie,  $nom_employe, $date_embauche, $entreprise,
         $type_contrat, $num_cnss_employe, $num_cnss_employeur, $poste_employe, $adresse_entreprise,
@@ -165,7 +169,7 @@ class NormalCalculatorSalaryPage extends Component
         }
     }
     /*Génération du PDF*/
-    public function generatePayslipPdf()
+    public function generatePayslipPdf(GeneratePdf $generatepdf)
     {
         $typeCalcul = $this->type_calcul ?? 'brut';
         // Incrémente pdf_count dans la base
@@ -188,7 +192,6 @@ class NormalCalculatorSalaryPage extends Component
         ];
 
         try {
-            $generatepdf = new \App\Services\Payslip\GeneratePdf();
             $pdf = $generatepdf->generate($data);
 
             if (!$pdf) {

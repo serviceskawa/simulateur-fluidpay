@@ -33,6 +33,13 @@ class InverseCalculatorSalaryPage extends Component
     public $resultats = [];
     public $type_calcul = null;
     public $showModal = false;
+
+    // public GeneratePdf $generatepdf;
+
+    // public function boot(GeneratePdf $generatepdf)
+    // {
+    //     $this->generatepdf = $generatepdf;
+    // }
     public $periode_paie,  $nom_employe, $date_embauche, $entreprise,
         $type_contrat, $num_cnss_employe, $num_cnss_employeur, $poste_employe, $adresse_entreprise,
         $date_fin_contrat, $ifu_employe,   $ifu_employeur, $signature_employeur;
@@ -88,7 +95,7 @@ class InverseCalculatorSalaryPage extends Component
 
     public function getTaxRate(int $income): float
     {
-       
+
         if ($income <= 60000) return 0;
         if ($income <= 150000) return ($income - 60000) * 0.1;
         if ($income <= 250000) return ($income - 150000) * 0.15 + 9000;
@@ -184,7 +191,7 @@ class InverseCalculatorSalaryPage extends Component
             $diff = $calculatedNet - $targetNet;
 
             if (abs($diff) < $tolerance) {
-                return round($mid,2);
+                return round($mid, 2);
             }
             if ($diff < 0) {
                 $low = $mid;
@@ -249,7 +256,7 @@ class InverseCalculatorSalaryPage extends Component
     }
 
     /*Génération du fichier PDF*/
-    public function generatePayslipPdf()
+    public function generatePayslipPdf(GeneratePdf $generatepdf)
     {
 
         $typeCalcul = $this->type_calcul ?? 'net';
@@ -271,7 +278,7 @@ class InverseCalculatorSalaryPage extends Component
         ];
 
         try {
-            $generatepdf = new \App\Services\Payslip\GeneratePdf();
+            
             $pdf = $generatepdf->generate($data);
 
             if (!$pdf) {

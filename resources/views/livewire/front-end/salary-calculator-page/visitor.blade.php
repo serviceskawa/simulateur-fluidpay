@@ -1,4 +1,4 @@
-<div class="mx-auto" style="max-width: 750px; margin: 50px auto;">
+<div class="mx-auto" style="max-width: 728px; margin: 50px auto;">
     <div class="row text-center">
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-3 d-flex flex-column justify-content-center align-items-center" style="height: 150px;">
