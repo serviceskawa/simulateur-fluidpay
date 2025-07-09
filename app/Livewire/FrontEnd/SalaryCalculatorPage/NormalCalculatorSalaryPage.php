@@ -6,6 +6,9 @@ use Illuminate\Support\Carbon;
 use Livewire\Component;
 use App\Services\Payslip\GeneratePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Visit;
+use Stevebauman\Location\Facades\Location;
+use App\Models\Visits;
 
 
 
@@ -39,6 +42,27 @@ class NormalCalculatorSalaryPage extends Component
 
 
     }
+
+
+
+    public function enregistrerVisits($type)
+{
+    $ip = request()->ip();
+
+    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+    if ($visits) {
+        $visits->increment('calcul_count');
+    } else {
+        Visits::create([
+            'ip' => $ip,
+            'type_calcul' => $type,
+            'calcul_count' => 1,
+            'pdf_count' => 0,
+        ]);
+    }
+}
+
 
 
     public function getTaxRate(int $income): float
@@ -103,7 +127,13 @@ class NormalCalculatorSalaryPage extends Component
 
 
     public function calculer()
+
+
+
     {
+
+        $this->enregistrerVisits('brut');
+
         if (!$this->salaire_brut || $this->salaire_brut <= 0) {
             $this->addError('salaire_brut', 'Salaire brut invalide.');
             return;
@@ -149,8 +179,30 @@ class NormalCalculatorSalaryPage extends Component
         ];
     }
 
+
+     public function incrementerPDF($type)
+{
+    $ip = request()->ip();
+
+    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+    if ($visits) {
+        $visits->increment('pdf_count');
+    }
+}
+
+
     public function generatePayslipPdf()
     {
+
+
+
+$typeCalcul = $this->type_calcul ?? 'brut';
+
+    // Incrémente pdf_count dans la base
+    $this->incrementerPDF($typeCalcul);
+
+
         $data = [
             'periode_paie' => $this->periode_paie,
             'nom_employe' => $this->nom_employe,

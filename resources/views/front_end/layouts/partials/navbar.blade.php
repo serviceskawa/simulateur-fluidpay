@@ -12,17 +12,18 @@
         <a href="#" class="d-flex align-items-center me-2 " style="height: 100%;">
             <img src="{{ asset('assets/img/fluidpay_logo.png') }}" alt="Logo" style="max-height: 100px;">
         </a>
-        <ul class="nav mx-auto align-items-center mb-0" style="font-size: 16px;">
+        <ul class="nav mx-auto align-items-center mb-0 flex-nowrap">
+
 
             <li class="nav-item me-5">
                 <a class="nav-link text-dark  fs-5" href="#">Accueil</a>
             </li>
             <li class="nav-item me-5">
-                <a class="nav-link text-dark  fs-5" href="#">Fonctionnalité</a>
+                <a class="nav-link text-dark  fs-5" href="#">Fonctionnalités</a>
             </li>
             <li class="nav-item dropdown me-5">
   <a class="nav-link text-dark d-flex align-items-center fs-5" href="#" id="ressourceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Ressource
+    Ressources
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ms-1 bi bi-caret-down-fill" viewBox="0 0 16 16">
       <path d="M7.247 11.14l-4.796-5.481A.5.5 0 0 1 2.5 5h11a.5.5 0 0 1 .384.82l-4.796 5.48a.5.5 0 0 1-.768 0z"/>
     </svg>
@@ -33,7 +34,11 @@
     </li>
     <li><hr class="dropdown-divider my-1"></li>
     <li>
-      <a class="dropdown-item py-2 px-3" href="#">Calculateur de salaire</a>
+      <a class="dropdown-item py-2 px-3" href="http://localhost:8000/calculator-page#simulateur">Calculateur de salaire</a>
+    </li>
+    <li><hr class="dropdown-divider my-1"></li>
+    <li>
+      <a class="dropdown-item py-2 px-3" href="https://notebooklm.google.com/notebook/4d765894-d017-4199-9964-b15cb406e3d8">Assistant RH intelligent</a>
     </li>
   </ul>
 </li>
@@ -45,7 +50,7 @@
     style="
         background-color: #273584;
         border-radius: 28px;
-        padding: 14px 28px;
+        padding: 10px 20px;
         min-width: 250px;
         font-size: 16px;
         line-height: 1.2;

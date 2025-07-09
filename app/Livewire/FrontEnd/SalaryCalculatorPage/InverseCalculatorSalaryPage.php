@@ -7,12 +7,17 @@ use Livewire\Component;
 use Carbon\Carbon;
 use Livewire\Livewire;
 use App\Services\PayslipService;
-use WithFileUploads;
+ use App\Models\Visits;
+
 use App\Services\Payslip\GeneratePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Container\Attributes\Log;
+use App\Models\Visit;
+use Stevebauman\Location\Facades\Location;
+
 
 class InverseCalculatorSalaryPage extends Component
+
 {
     public $salaire_brut;
     public $coutTotalEmployeur = 0;
@@ -37,6 +42,29 @@ class InverseCalculatorSalaryPage extends Component
         Carbon::setLocale('fr');
         $this->mois_inverse = ucfirst(strtolower(Carbon::now()->isoFormat('MMMM')));
     }
+
+
+
+
+
+public function enregistrerVisits($type)
+{
+    $ip = request()->ip();
+
+    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+    if ($visits) {
+        $visits->increment('calcul_count');
+    } else {
+        Visits::create([
+            'ip' => $ip,
+            'type_calcul' => $type,
+            'calcul_count' => 1,
+            'pdf_count' => 0,
+        ]);
+    }
+}
+
 
     public $fichier;
 
@@ -172,6 +200,11 @@ class InverseCalculatorSalaryPage extends Component
 
     public function calculerInverse()
     {
+
+
+         $this->enregistrerVisits('net');
+
+
         $this->resetErrorBag();
 
         if (!is_numeric($this->salaire_net) || $this->salaire_net <= 0) {
@@ -183,7 +216,10 @@ class InverseCalculatorSalaryPage extends Component
             return;
         }
 
-       
+
+
+
+
         $this->periode_paie = ucfirst($this->mois_inverse) . ' ' . date('Y');
 
         $cnssOuvriereRate = $this->cnss_ouvriere / 100;
@@ -208,10 +244,31 @@ class InverseCalculatorSalaryPage extends Component
         ];
 
 
+
+
     }
+
+
+    public function incrementerPDF($type)
+{
+    $ip = request()->ip();
+
+    $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+    if ($visits) {
+        $visits->increment('pdf_count');
+    }
+}
+
 
     public function generatePayslipPdf()
     {
+
+
+
+
+        $typeCalcul = $this->type_calcul ?? 'net';
+    $this->incrementerPDF($typeCalcul);
         $data = [
             'periode_paie' => $this->periode_paie,
             'nom_employe' => $this->nom_employe,

@@ -1,14 +1,16 @@
 <div style="font-family: 'Noto Sans Kawi', sans-serif;">
-   <style>
-    label {
-        font-size: 14px !important;
+    <style>
+        label {
+            font-size: 14px !important;
 
-    }
-</style>
+        }
+    </style>
 
-    <form wire:submit.prevent="calculer" class="card p-4 mx-auto shadow-sm border-1"
+
+
+    <div class="card p-4 mx-auto shadow-sm border-1"
         style="max-width: 750px;   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);">
-        <h4 class="mb-4 text-start text-dark fw-semibold">Calcul à partir du Salaire Brut</h4>
+        <h4 class="mb-4 text-start text-dark fw-semibold">Calcul à partir du salaire brut</h4>
 
         <style>
             .small-label {
@@ -25,30 +27,31 @@
             }
 
             /* Pour tous les placeholders */
-::placeholder {
-    font-size: 14px;
-    color: #777; /* facultatif */
-}
+            ::placeholder {
+                font-size: 14px;
+                color: #777;
+                /* facultatif */
+            }
 
-/* Si tu veux cibler uniquement les champs avec une classe spécifique */
-.small-input::placeholder {
-    font-size: 14px;
-    color: #777;
-}
+            /* Si tu veux cibler uniquement les champs avec une classe spécifique */
+            .small-input::placeholder {
+                font-size: 14px;
+                color: #777;
+            }
         </style>
 
         <div class="row g-3 mb-input">
             <div class="col-md-6">
                 <x-form.input name="salaire_brut" label="Salaire Brut (FCFA)" type="number" wire:model="salaire_brut"
-                    placeholder="Ex: 250000" placeholder-class="font-size: 14px" label-class="small-label text-start" input-class="small-input" />
-                @error('salaire_brut')
+                    placeholder="Ex: 250000" placeholder-class="font-size: 14px" label-class="small-label text-start"
+                    input-class="small-input" />
+                {{-- @error('salaire_brut')
                     <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
+                @enderror --}}
             </div>
 
             <div class="col-md-6">
                 <x-form.select name="mois_brut" label="Mois de paie" wire:model="mois_brut" :options="[
-
                     'Janvier' => 'Janvier',
                     'Février' => 'Février',
                     'Mars' => 'Mars',
@@ -69,26 +72,29 @@
         <div class="row g-3 mb-input">
             <div class="col-md-6">
                 <x-form.input name="cnss_ouvriere_brut" label="CNSS Ouvrière (%)" type="number" step="0.1"
-                    wire:model="cnss_ouvriere_brut" label-class="small-label text-start  fw-semibold" input-class="small-input" placeholder-class="font-size: 14px" />
+                    wire:model="cnss_ouvriere_brut" label-class="small-label text-start  fw-semibold"
+                    input-class="small-input" placeholder-class="font-size: 14px" />
             </div>
 
             <div class="col-md-6">
                 <x-form.input name="cnss_patronale_brut" label="CNSS Patronale (%)" type="number" step="0.1"
-                    wire:model="cnss_patronale_brut" label-class="small-label text-start  fw-semibold" input-class="small-input"  placeholder-class="font-size: 14px"/>
+                    wire:model="cnss_patronale_brut" label-class="small-label text-start  fw-semibold"
+                    input-class="small-input" placeholder-class="font-size: 14px" />
             </div>
         </div>
 
         <div class="row g-3  mb-input" style="margin-top: 10px">
             <div class="col-md-6">
                 <x-form.input name="vps_brut" label="VPS (%)" type="number" wire:model="vps_brut"
-                    label-class="small-label text-start  fw-semibold" input-class="small-input"  placeholder-class="font-size: 14px"/>
+                    label-class="small-label text-start  fw-semibold" input-class="small-input"
+                    placeholder-class="font-size: 14px" />
             </div>
         </div>
 
 
         <div class="text-start">
-            <x-form.button type="submit" class="btn btn-sm px-4 mt-3 shadow"
-                style="background-color: #003366; color: white; border: none; box-shadow: 0 4px 16px rgba(0, 51, 102, 0.6); font-size: 14px; padding: 6px 12px;">
+            <x-form.button wire:click="calculer" class="btn btn-sm px-4 mt-3 shadow"
+                style="background-color: #273584; color: white; border: none; box-shadow: 0 4px 16px rgba(0, 51, 102, 0.6); font-size: 14px; padding: 6px 12px;">
                 <span>Calculer</span>
             </x-form.button>
 
@@ -116,113 +122,74 @@
                 </div>
             </div>
         @endif
-
-
-
         <x-form.modal :show="$showModal">
+    <div class="p-3 mx-auto" style="max-width: 800px;">
+        <div class="modal-dialog modal-dialog-scrollable" style="max-height: 90vh;">
+            <h2 class="fs-5 fw-bold mb-3">Générer la Fiche de Paie</h2>
+        </div>
 
-
-            <form wire:submit.prevent="generatePayslipPdf" class="p-3 mx-auto" style="max-width: 300px;">
-                <div class="modal-dialog" style="max-height: 90vh; overflow-y: auto;">
-                    <h2 class="fs-5 fw-bold">Générer la Fiche de Paie</h2>
+        <div class="modal-body p-4">
+            <h6 class="fw-bold mb-3">INFORMATION DE L'EMPLOYÉ</h6>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold text-start">Période de paie</label>
+                    <input type="text" class="form-control form-control-sm" wire:model="periode_paie" readonly>
                 </div>
-
-                <div class="modal-body p-4">
-                    <h6 class="text-left fw-bold">INFORMATION DE L'EMPLOYE</h6>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Période
-                                de paie</label>
-                            <input type="text" class="form-control" wire:model="periode_paie" readonly>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Nom de
-                                l'employé</label>
-                            <input type="text" class="form-control" placeholder="Ex: Jean Dupont"
-                                wire:model="nom_employe">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Date
-                                d'embauche</label>
-                            <input type="date" class="form-control" wire:model="date_embauche">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left"
-                                style="font-size: 0.85rem;">Poste/Fonction</label>
-                            <input type="text" class="form-control" placeholder="Ex: Développeur Web"
-                                wire:model="poste_employe">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Type de
-                                contrat</label>
-                            <input type="text" class="form-control" placeholder="Ex: CDI, CDD, Stage"
-                                wire:model="type_contrat">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">N°
-                                CNSS Employé</label>
-                            <input type="text" class="form-control" placeholder="Ex: 123456789"
-                                wire:model="num_cnss_employe">
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Numéro
-                                IFU</label>
-                            <input type="text" class="form-control" placeholder="Ex: 0000000000000"
-                                wire:model="ifu_employe">
-                        </div>
-                    </div>
-
-                    <h6 class=" text-left fw-bold mt-4">INFORMATION DE L'EMPLOYEUR</h6>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Nom de
-                                l'entreprise</label>
-                            <input type="text" class="form-control" placeholder="Ex: Votre Entreprise S.A."
-                                wire:model="entreprise">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">N°
-                                CNSS Employeur</label>
-                            <input type="text" class="form-control" placeholder="Ex: 987654321"
-                                wire:model="num_cnss_employeur">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left"
-                                style="font-size: 0.85rem;">Adresse de l'entreprise</label>
-                            <input type="text" class="form-control" placeholder="Ex: 123 Rue de la Paix, Cotonou"
-                                wire:model="adresse_entreprise">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold d-block text-left" style="font-size: 0.85rem;">Numéro
-                                IFU</label>
-                            <input type="text" class="form-control" placeholder="Ex: 0000000000000"
-                                wire:model="ifu_employeur">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-3">
-                        <button type="button" @click="$wire.set('showModal', false)" class="btn btn-secondary" style="font-size: 14px">
-                            Annuler
-                        </button>
-                        <button type="submit" wire:click="generatePayslipPdf" class="btn btn-primary" style="font-size: 14px">
-                            Générer PDF
-                        </button>
-                    </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold text-start">Nom de l'employé</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: Jean Dupont" wire:model="nom_employe">
                 </div>
-            </form>
-
-
-        </x-form.modal>
-
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Date d'embauche</label>
+                    <input type="date" class="form-control form-control-sm" wire:model="date_embauche">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Poste / Fonction</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: Développeur Web" wire:model="poste_employe">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Type de contrat</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: CDI, CDD, Stage" wire:model="type_contrat">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">N° CNSS Employé</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: 123456789" wire:model="num_cnss_employe">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">Numéro IFU</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: 0000000000000" wire:model="ifu_employe">
+                </div>
+            </div>
+            <h6 class="fw-bold mt-4 mb-3">INFORMATION DE L'EMPLOYEUR</h6>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Nom de l'entreprise</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: Votre Entreprise S.A." wire:model="entreprise">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">N° CNSS Employeur</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: 987654321" wire:model="num_cnss_employeur">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Adresse de l'entreprise</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: 123 Rue de la Paix, Cotonou" wire:model="adresse_entreprise">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Numéro IFU</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ex: 0000000000000" wire:model="ifu_employeur">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-3 mt-4">
+                <button type="button" @click="$wire.set('showModal', false)" class="btn btn-secondary btn-sm">
+                    Annuler
+                </button>
+                <button type="submit" wire:click="generatePayslipPdf" class="btn btn-primary btn-sm">
+                    Générer PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</x-form.modal>
         <script>
             window.addEventListener('download-pdf', event => {
                 const pdfData = event.detail.pdfData;
@@ -234,9 +201,5 @@
                 link.click();
             });
         </script>
-
-    </form>
-
-
-
+    </div>
 </div>
