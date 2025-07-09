@@ -88,7 +88,7 @@ class InverseCalculatorSalaryPage extends Component
 
     public function getTaxRate(int $income): float
     {
-        $income = (int)$income;
+       
         if ($income <= 60000) return 0;
         if ($income <= 150000) return ($income - 60000) * 0.1;
         if ($income <= 250000) return ($income - 150000) * 0.15 + 9000;

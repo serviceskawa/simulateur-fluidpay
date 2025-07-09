@@ -32,7 +32,7 @@ class NormalCalculatorSalaryPage extends Component
         $this->mois_brut = ucfirst(Carbon::now()->isoFormat('MMMM'));
         $this->periode_paie = ucfirst(Carbon::now()->translatedFormat('F Y'));
     }
-
+    /*enregistrement des visiteurs*/
     public function enregistrerVisits($type)
     {
         $ip = request()->ip();
@@ -50,9 +50,10 @@ class NormalCalculatorSalaryPage extends Component
             ]);
         }
     }
+    /*calcul de l'impôt*/
     public function getTaxRate(int $income): float
     {
-        $income = floor($income / 1000) * 1000;
+        $income = (int)$income;
         if ($income <= 60000) return 0;
         if ($income <= 150000) return ($income - 60000) * 0.1;
         if ($income <= 250000) return ($income - 150000) * 0.15 + 9000;
@@ -60,7 +61,7 @@ class NormalCalculatorSalaryPage extends Component
         return ($income - 500000) * 0.3 + 71500;
     }
 
-
+     /*Taxes spécifiques*/
     public function getSpecificTax(string $month): array
     {
         $m = strtolower($month);
@@ -163,6 +164,7 @@ class NormalCalculatorSalaryPage extends Component
             $visits->increment('pdf_count');
         }
     }
+    /*Génération du PDF*/
     public function generatePayslipPdf()
     {
         $typeCalcul = $this->type_calcul ?? 'brut';
