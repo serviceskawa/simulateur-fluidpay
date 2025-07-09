@@ -89,7 +89,7 @@ class NormalCalculatorSalaryPage extends Component
     {
         $low = 0;
         $high = 5000000;
-        $tolerance = 0.5;
+        $tolerance = 1;
         $estimatedGross = 0;
 
         for ($i = 0; $i < 200; $i++) {
@@ -109,6 +109,7 @@ class NormalCalculatorSalaryPage extends Component
         }
         return (int) round($estimatedGross);
     }
+    /*Pour le calcule à partir du salaire brut*/
     public function calculer()
     {
 
@@ -129,7 +130,6 @@ class NormalCalculatorSalaryPage extends Component
         $vps = $this->salaire_brut * $vpsRate;
         $impots = $this->getTaxRate((int)$this->salaire_brut);
         $taxeSpecifique = $this->getSpecificTax($this->mois_brut);
-
         $net = $this->salaire_brut - $cnssOuvriere - $impots - $taxeSpecifique['montant'];
 
         $coutTotalEmployeur = $this->salaire_brut + $cnssPatronale + $vps;
@@ -157,7 +157,6 @@ class NormalCalculatorSalaryPage extends Component
     public function incrementerPDF($type)
     {
         $ip = request()->ip();
-
         $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
 
         if ($visits) {
@@ -166,12 +165,9 @@ class NormalCalculatorSalaryPage extends Component
     }
     public function generatePayslipPdf()
     {
-
         $typeCalcul = $this->type_calcul ?? 'brut';
-
         // Incrémente pdf_count dans la base
         $this->incrementerPDF($typeCalcul);
-
 
         $data = [
             'periode_paie' => $this->periode_paie,
@@ -223,6 +219,7 @@ class NormalCalculatorSalaryPage extends Component
 
         return $pdf->download('fiche-de-paie.pdf');
     }
+
     public function render()
     {
         return view('livewire.front-end.salary-calculator-page.normal-calculator-salary-page');

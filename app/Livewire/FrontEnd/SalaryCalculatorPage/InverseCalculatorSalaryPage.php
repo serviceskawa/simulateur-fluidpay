@@ -88,7 +88,6 @@ class InverseCalculatorSalaryPage extends Component
 
     public function getTaxRate(int $income): float
     {
-        $income = floor($income / 1000) * 1000;
         if ($income <= 60000) return 0;
         if ($income <= 150000) return ($income - 60000) * 0.1;
         if ($income <= 250000) return ($income - 150000) * 0.15 + 9000;
@@ -174,7 +173,7 @@ class InverseCalculatorSalaryPage extends Component
     public function findGrossSalaryFinal(float $targetNet, string $month, float $cnssOuvriereRate): float
     {
         $low = 0;
-        $high = 5_000_000;
+        $high = 5000000;
         $tolerance = 1;
         $maxIterations = 200;
         $mid = 0;
@@ -201,24 +200,21 @@ class InverseCalculatorSalaryPage extends Component
     /*Fonction du calculs inverse*/
     public function calculerInverse()
     {
-
-
         $this->enregistrerVisits('net');
-
-
         $this->resetErrorBag();
 
         if (!is_numeric($this->salaire_net) || $this->salaire_net <= 0) {
             $this->addError('salaire_net', 'Veuillez saisir un salaire net valide.');
             return;
         }
+
         if (empty($this->mois_inverse)) {
             $this->addError('mois_inverse', 'Veuillez choisir un mois.');
             return;
         }
         $this->periode_paie = ucfirst($this->mois_inverse) . ' ' . date('Y');
         $cnssOuvriereRate = $this->cnss_ouvriere / 100;
-        $gross = $this->findGrossSalaryFinal((float)$this->salaire_net, $this->mois_inverse, $cnssOuvriereRate);
+        $gross = $this->findGrossSalaryFinal(floatval($this->salaire_net), $this->mois_inverse, $cnssOuvriereRate);
         $cnssOuvriere = $gross * $cnssOuvriereRate;
         $cnssPatronale = $gross * ($this->cnss_patronale / 100);
         $vps = $gross * ($this->vps / 100);
