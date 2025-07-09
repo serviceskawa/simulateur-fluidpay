@@ -1,63 +1,56 @@
-<div class="footer_section layout_padding fixed">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <h3 class="footer_text">Useful links</h3>
-                <div class="footer_menu">
-                    <ul>
-                        <li class="active"><a href="index.html"><span class="angle_icon active"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> Home</a></li>
-                        <li><a href="#"><span class="angle_icon"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> About</a></li>
-                        <li><a href="services.html"><span class="angle_icon"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> Services</a></li>
-                        <li><a href="domain.html"><span class="angle_icon"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> Domain</a></li>
-                        <li><a href="testimonial.html"><span class="angle_icon"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> Testimonial</a></li>
-                        <li><a href="contact.html"><span class="angle_icon"><i class="fa fa-arrow-right"
-                                        aria-hidden="true"></i></span> Contact Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <h3 class="footer_text">Address</h3>
-                <div class="location_text">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <span class="padding_left_10"><i class="fa fa-map-marker"
-                                        aria-hidden="true"></i></span>It is a long established fact that a<br> reader
-                                will be distracted</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="padding_left_10"><i class="fa fa-phone" aria-hidden="true"></i></span>(+71)
-                                1234567890<br>(+71) 1234567890
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="padding_left_10"><i class="fa fa-envelope"
-                                        aria-hidden="true"></i></span>demo@gmail.com
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="footer_main">
-                    <h3 class="footer_text">Find Us</h3>
-                    <p class="dummy_text">more-or-less normal distribution </p>
-                    <div class="social_icon">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<footer class="bg-dark text-light py-5" style="max-height: 634px">
+  <div class="container">
+    <div class="row">
+      <!-- Adresse -->
+      <div class="col-md-4">
+        <h5 class="mb-3">Adresse</h5>
+
+          <p>Sèdomey<br>
+          Godomey,
+           Abomey-Calavi<br>
+          Atlantique<br>
+          Bénin<br>
+          <hr class="bg-light" style="height: 1px; opacity: 0.5; margin: 1rem 0; weight: 2px">
+
+          FluidPay est une solution proposée par<br> KAWA SERVICES.
+          Pour en savoir plus ou <br>pour toute question, contactez-nous par<br> email à
+          <a href="mailto:support@fluidpay.link" class="text-decoration-underline text-light">support@fluidpay.link</a>.
+        </p>
+      </div>
+
+      <!-- Liens Entreprise -->
+      <div class="col-md-4 mb-4">
+        <h5 class="mb-3">Entreprise</h5>
+        <ul class="list-unstyled">
+          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" class="text-light text-decoration-none">Nous rejoindre</a></li>
+          <li><a href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1" class="text-light text-decoration-none">Contact</a></li>
+          <li><a href="https://site.fluidpay.link/terms-of-service/" class="text-light text-decoration-none">Conditions générales d'utilisation</a></li>
+          <li><a href="https://site.fluidpay.link/privacy-policy/" class="text-light text-decoration-none">Politique de confidentialité</a></li>
+        </ul>
+      </div>
+
+     <!-- Colonne Produit + Pays côte à côte -->
+<div class="col-md-4 mb-4">
+  <div class="row">
+    <!-- Produit -->
+    <div class="col-6">
+      <h5 class="mb-3">Produit</h5>
+      <ul class="list-unstyled">
+        <li><a href="https://crm.fluidpay.link/forms/wtl/a2a382e0ebe26c3e4696bbafb7dd4468?styled=1&with_logo=1" class="text-light text-decoration-none">Essayer FluidPay gratuitement</a></li>
+        <li><a href="https://site.fluidpay.link/#" class="text-light text-decoration-none">Caractéristiques</a></li>
+        <li><a href="https://fluidpay.link/login" class="text-light text-decoration-none">Connexion</a></li>
+      </ul>
     </div>
+
+    <!-- Pays -->
+    <div class="col-6">
+      <h5 class="mb-3">Pays</h5>
+      <ul class="list-unstyled">
+        <li>Bénin</li>
+        <li>Togo (bientôt)</li>
+      </ul>
+    </div>
+  </div>
 </div>
+
+</footer>
