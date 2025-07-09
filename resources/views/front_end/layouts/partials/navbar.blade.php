@@ -30,7 +30,7 @@
   </a>
   <ul class="dropdown-menu shadow-sm border-0 rounded-3 mt-2 py-2" style="min-width: 220px;">
     <li>
-      <a class="dropdown-item py-2 px-3" href="#">Blog</a>
+      <a class="dropdown-item py-2 px-3" href="https://site.fluidpay.link/blog/">Blog</a>
     </li>
     <li><hr class="dropdown-divider my-1"></li>
     <li>
@@ -43,10 +43,10 @@
   </ul>
 </li>
             <li class="nav-item me-5">
-                <a class="nav-link text-dark  fs-5" href="#">Contact</a>
+                <a class="nav-link text-dark  fs-5" href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1">Contact</a>
             </li>
         </ul>
-<a href="#" class="otn btn-sm text-white ms-2 demo-btn"
+<a href="https://crm.fluidpay.link/forms/wtl/90c59c34eb649f5ffc229dcab952ec21?styled=1&with_logo=1" class="otn btn-sm text-white ms-2 demo-btn"
     style="
         background-color: #273584;
         border-radius: 28px;
