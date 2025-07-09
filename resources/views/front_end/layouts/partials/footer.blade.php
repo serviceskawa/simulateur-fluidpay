@@ -20,7 +20,7 @@
   }
 </style>
 
-<footer class="bg-dark text-light py-5" role="contentinfo">
+<footer class="bg-dark text-light py-5 mt-5" role="contentinfo">
   <div class="container">
     <div class="row gy-4">
       <div class="col-md-3 d-flex flex-column align-items-start">

@@ -7,12 +7,17 @@ use Livewire\Component;
 use Carbon\Carbon;
 use Livewire\Livewire;
 use App\Services\PayslipService;
-use WithFileUploads;
+use App\Models\Visits;
+
 use App\Services\Payslip\GeneratePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Container\Attributes\Log;
+use App\Models\Visit;
+use Stevebauman\Location\Facades\Location;
+
 
 class InverseCalculatorSalaryPage extends Component
+
 {
     public $salaire_brut;
     public $coutTotalEmployeur = 0;
@@ -28,7 +33,7 @@ class InverseCalculatorSalaryPage extends Component
     public $resultats = [];
     public $type_calcul = null;
     public $showModal = false;
-    public $periode_paie,  $nom_employe, $date_embauche,$entreprise,
+    public $periode_paie,  $nom_employe, $date_embauche, $entreprise,
         $type_contrat, $num_cnss_employe, $num_cnss_employeur, $poste_employe, $adresse_entreprise,
         $date_fin_contrat, $ifu_employe,   $ifu_employeur, $signature_employeur;
 
@@ -37,6 +42,29 @@ class InverseCalculatorSalaryPage extends Component
         Carbon::setLocale('fr');
         $this->mois_inverse = ucfirst(strtolower(Carbon::now()->isoFormat('MMMM')));
     }
+
+
+
+    /*Pour enregistrer les visiteurs*/
+
+    public function enregistrerVisits($type)
+    {
+        $ip = request()->ip();
+
+        $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+        if ($visits) {
+            $visits->increment('calcul_count');
+        } else {
+            Visits::create([
+                'ip' => $ip,
+                'type_calcul' => $type,
+                'calcul_count' => 1,
+                'pdf_count' => 0,
+            ]);
+        }
+    }
+
 
     public $fichier;
 
@@ -60,7 +88,7 @@ class InverseCalculatorSalaryPage extends Component
 
     public function getTaxRate(int $income): float
     {
-        $income= floor($income / 1000) * 1000;
+       
         if ($income <= 60000) return 0;
         if ($income <= 150000) return ($income - 60000) * 0.1;
         if ($income <= 250000) return ($income - 150000) * 0.15 + 9000;
@@ -119,16 +147,14 @@ class InverseCalculatorSalaryPage extends Component
 
         $net = $SB - $cnssOuvriere - $impots - $taxeSpecifique['montant'];
         $this->resultats = [
-            ['label' => 'Salaire Brut', 'val' => number_format($SB, 0, ',', ' ') ],
-            ['label' => 'CNSS Ouvrière', 'val' => number_format($cnssOuvriere, 0, ',', ' ') ],
-            ['label' => 'Impôt sur salaire (' . $this->getTaxBracket((int)$SB) . ')', 'val' => number_format($impots, 0, ',', ' ') ],
+            ['label' => 'Salaire Brut', 'val' => number_format($SB, 0, ',', ' ')],
+            ['label' => 'CNSS Ouvrière', 'val' => number_format($cnssOuvriere, 0, ',', ' ')],
+            ['label' => 'Impôt sur salaire (' . $this->getTaxBracket((int)$SB) . ')', 'val' => number_format($impots, 0, ',', ' ')],
             ['label' => $taxeSpecifique['label'], 'val' => number_format($taxeSpecifique['montant'], 0, ',', ' ')],
-            ['label' => 'Salaire Net à payer', 'val' => number_format($net, 0, ',', ' ') ],
-            ['label' => 'CNSS Patronale', 'val' => number_format($cnssPatronale, 0, ',', ' ') ],
-            ['label' => 'VPS', 'val' => number_format($vps, 0, ',', ' ') ],
+            ['label' => 'Salaire Net à payer', 'val' => number_format($net, 0, ',', ' ')],
+            ['label' => 'CNSS Patronale', 'val' => number_format($cnssPatronale, 0, ',', ' ')],
+            ['label' => 'VPS', 'val' => number_format($vps, 0, ',', ' ')],
         ];
-
-
     }
 
     public function formaterFcfa($montant)
@@ -148,8 +174,8 @@ class InverseCalculatorSalaryPage extends Component
     public function findGrossSalaryFinal(float $targetNet, string $month, float $cnssOuvriereRate): float
     {
         $low = 0;
-        $high = 5_000_000;
-        $tolerance = 1;
+        $high = 5000000;
+        $tolerance = 0.01;
         $maxIterations = 200;
         $mid = 0;
         for ($i = 0; $i < $maxIterations; $i++) {
@@ -157,8 +183,8 @@ class InverseCalculatorSalaryPage extends Component
             $calculatedNet = $this->calculateNetFromBrut($mid, $month, $cnssOuvriereRate);
             $diff = $calculatedNet - $targetNet;
 
-             if (abs($diff) < $tolerance) {
-                return round($mid);
+            if (abs($diff) < $tolerance) {
+                return round($mid,2);
             }
             if ($diff < 0) {
                 $low = $mid;
@@ -167,27 +193,29 @@ class InverseCalculatorSalaryPage extends Component
             }
         }
 
-        return round($mid);
+        return round($mid, 2);
     }
 
+
+
+    /*Fonction du calculs inverse*/
     public function calculerInverse()
     {
+        $this->enregistrerVisits('net');
         $this->resetErrorBag();
 
         if (!is_numeric($this->salaire_net) || $this->salaire_net <= 0) {
             $this->addError('salaire_net', 'Veuillez saisir un salaire net valide.');
             return;
         }
+
         if (empty($this->mois_inverse)) {
             $this->addError('mois_inverse', 'Veuillez choisir un mois.');
             return;
         }
-
-       
         $this->periode_paie = ucfirst($this->mois_inverse) . ' ' . date('Y');
-
         $cnssOuvriereRate = $this->cnss_ouvriere / 100;
-        $gross = $this->findGrossSalaryFinal((float)$this->salaire_net, $this->mois_inverse, $cnssOuvriereRate);
+        $gross = $this->findGrossSalaryFinal(floatval($this->salaire_net), $this->mois_inverse, $cnssOuvriereRate);
         $cnssOuvriere = $gross * $cnssOuvriereRate;
         $cnssPatronale = $gross * ($this->cnss_patronale / 100);
         $vps = $gross * ($this->vps / 100);
@@ -198,20 +226,34 @@ class InverseCalculatorSalaryPage extends Component
         $this->coutTotalEmployeur = $coutTotalEmployeur;
         $this->coutTotalEmployeurFormatted = $texte;
         $this->resultats = [
-            ['label' => 'Salaire brut estimé', 'val' => number_format($gross, 0, ',', ' ') ],
-            ['label' => 'CNSS Ouvrière', 'val' => number_format($cnssOuvriere, 0, ',', ' ') ],
-            ['label' => 'Impôt sur salaire (' . $this->getTaxBracket((int)$gross) . ')', 'val' => number_format($impots, 0, ',', ' ') ],
-            ['label' => $taxeSpecifique['label'], 'val' => number_format($taxeSpecifique['montant'], 0, ',', ' ') ],
-            ['label' => 'Salaire net à payer', 'val' => number_format($this->salaire_net, 0, ',', ' ') ],
-            ['label' => 'CNSS Patronale', 'val' => number_format($cnssPatronale, 0, ',', ' ') ],
+            ['label' => 'Salaire brut estimé', 'val' => number_format($gross, 0, ',', ' ')],
+            ['label' => 'CNSS Ouvrière', 'val' => number_format($cnssOuvriere, 0, ',', ' ')],
+            ['label' => 'Impôt sur salaire (' . $this->getTaxBracket((int)$gross) . ')', 'val' => number_format($impots, 0, ',', ' ')],
+            ['label' => $taxeSpecifique['label'], 'val' => number_format($taxeSpecifique['montant'], 0, ',', ' ')],
+            ['label' => 'Salaire net à payer', 'val' => number_format($this->salaire_net, 0, ',', ' ')],
+            ['label' => 'CNSS Patronale', 'val' => number_format($cnssPatronale, 0, ',', ' ')],
             ['label' => 'VPS', 'val' => number_format($vps, 0, ',', ' ')],
         ];
-
-
     }
 
+
+    public function incrementerPDF($type)
+    {
+        $ip = request()->ip();
+
+        $visits = Visits::where('ip', $ip)->where('type_calcul', $type)->first();
+
+        if ($visits) {
+            $visits->increment('pdf_count');
+        }
+    }
+
+    /*Génération du fichier PDF*/
     public function generatePayslipPdf()
     {
+
+        $typeCalcul = $this->type_calcul ?? 'net';
+        $this->incrementerPDF($typeCalcul);
         $data = [
             'periode_paie' => $this->periode_paie,
             'nom_employe' => $this->nom_employe,
@@ -222,9 +264,9 @@ class InverseCalculatorSalaryPage extends Component
             'poste_employe' => $this->poste_employe,
             'ifu_employe' => $this->ifu_employe,
             'ifu_employeur' => $this->ifu_employeur,
-            'entreprise'=>$this ->entreprise,
-            'adresse_entreprise'=>$this->adresse_entreprise,
-             'coutTotalEmployeur' => $this->coutTotalEmployeur,
+            'entreprise' => $this->entreprise,
+            'adresse_entreprise' => $this->adresse_entreprise,
+            'coutTotalEmployeur' => $this->coutTotalEmployeur,
             'resultats' => $this->resultats,
         ];
 
@@ -240,9 +282,8 @@ class InverseCalculatorSalaryPage extends Component
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
             }, 'fiche-de-paie.pdf');
-
         } catch (\Exception $e) {
-            dd($e->getMessage());
+
             $this->addError('pdf', 'Une erreur est survenue lors de la génération du PDF.');
         }
 
@@ -257,7 +298,7 @@ class InverseCalculatorSalaryPage extends Component
             'ifu_employe' => $this->ifu_employe,
             'ifu_employeur' => $this->ifu_employeur,
             'coutTotalEmployeur' => $this->coutTotalEmployeur,
-            'entreprise'=>$this ->entreprise,
+            'entreprise' => $this->entreprise,
             'resultats' => $this->resultats,
         ]);
 
