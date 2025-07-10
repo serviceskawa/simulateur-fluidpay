@@ -3,7 +3,7 @@
 namespace App\Livewire\FrontEnd\SalaryCalculatorPage;
 
 use Livewire\Component;
-use App\Models\Visits; 
+use App\Models\Visits;
 
 class Visitor extends Component
 {
