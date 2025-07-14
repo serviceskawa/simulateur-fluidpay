@@ -6,7 +6,7 @@
     </style>
     <div class="card p-4 mx-auto shadow-sm border-1"
         style="max-width: 750px; margin-top: 50px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);">
-            <h4 class="mb-4 text-dark text-start fw-semibold">Calcul à partir du salaire net</h4>
+            <h5 class="mb-4 text-dark text-start fw-semibold" >Calcul à partir du salaire net</h5>
 
             <div class="row g-3 mb-input">
                 <div class="col-md-6">
