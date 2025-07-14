@@ -165,7 +165,7 @@ margin-right: 15px;
                 <ul class="dropdown-menu shadow-sm border-0 rounded-3 mt-2 py-2" style="min-width: 220px;">
                     <li><a class="dropdown-item py-2 px-3" href="https://site.fluidpay.link/blog/">Blog</a></li>
                     <li><hr class="dropdown-divider my-1"></li>
-                    <li><a class="dropdown-item py-2 px-3" href="{{ url('/') }}">Calculateur de salaire</a></li>
+                    <li><a class="dropdown-item py-2 px-3" href="https://site.fluidpay.link">Calculateur de salaire</a></li>
                     <li><hr class="dropdown-divider my-1"></li>
                     <li><a class="dropdown-item py-2 px-3" href="https://notebooklm.google.com/notebook/4d765894-d017-4199-9964-b15cb406e3d8">Assistant RH intelligent</a></li>
                 </ul>
