@@ -66,20 +66,22 @@ class NormalCalculatorSalaryPage extends Component
     }
 
      /*Taxes spécifiques*/
-    public function getSpecificTax(string $month): array
-    {
-        $m = strtolower($month);
-        $currentYear = date('Y');
+   public function getSpecificTax(string $month, float $salaireNet = 0): array
+{
+    $m = strtolower($month);
 
-        if ($m === 'mars' && $currentYear == date('Y')) {
-            return ['montant' => 1000, 'label' => 'Taxe Radiophonique'];
-        }
-        if ($m === 'juin' && $currentYear == date('Y')) {
-            return ['montant' => 3000, 'label' => 'Taxe Télévisuelle'];
-        }
-        return ['montant' => 0, 'label' => 'Aucune taxe spécifique'];
+    // Taxe spécifique pour mars uniquement si le salaire est ≥ 60000
+    if ($m === 'mars' && $salaireNet >= 60000) {
+        return ['montant' => 1000, 'label' => 'Taxe Radiophonique'];
     }
 
+    // Autres taxes spécifiques, sans condition sur le salaire
+    $taxes = [
+        'juin' => ['montant' => 3000, 'label' => 'Taxe Télévisuelle'],
+    ];
+
+    return $taxes[$m] ?? ['montant' => 0, 'label' => 'Aucune taxe spécifique'];
+}
 
     public function calculateNetFromBrut(float $gross, string $month, float $cnssOuvriereRate): float
     {
@@ -134,7 +136,10 @@ class NormalCalculatorSalaryPage extends Component
         $cnssPatronale = $this->salaire_brut * $cnssPatronaleRate;
         $vps = $this->salaire_brut * $vpsRate;
         $impots = $this->getTaxRate((int)$this->salaire_brut);
-        $taxeSpecifique = $this->getSpecificTax($this->mois_brut);
+       $SB = (float)$this->salaire_brut;
+$taxeSpecifique = $this->getSpecificTax($this->mois_brut, $SB);
+
+
         $net = $this->salaire_brut - $cnssOuvriere - $impots - $taxeSpecifique['montant'];
 
         $coutTotalEmployeur = $this->salaire_brut + $cnssPatronale + $vps;

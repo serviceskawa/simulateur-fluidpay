@@ -1,4 +1,4 @@
-<div class="mx-auto" style="max-width: 728px; margin: 50px auto;">
+<div class="mx-auto" style="max-width: 750px; margin: 50px auto; padding: 0 12px;">
     <div class="row text-center">
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-3 d-flex flex-column justify-content-center align-items-center" style="height: 150px;">
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm p-3 d-flex flex-column justify-content-center align-items-center" style="height: 150px;">
-                <h6 class="fw-bold mb-1">PDF générés</h6>
+                <h6 class="fw-bold mb-1">Fiches de paie</h6>
                 <span style="font-size: 150%;">{{ $totalPdf }}</span>
             </div>
         </div>
