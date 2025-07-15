@@ -15,67 +15,69 @@
 
         /* Hamburger styles */
         .navbar-toggler {
-            display: none; /* Cacher par défaut */
+            display: none;
+            /* Cacher par défaut */
             background: none;
             border: none;
             cursor: pointer;
         }
 
-       .bar {
-    display: block;
-    width: 20px;
-    height: 3px;
-    margin: 3px auto;
-margin-right: 15px;
+        .bar {
+            display: block;
+            width: 20px;
+            height: 3px;
+            margin: 3px auto;
+            margin-right: 15px;
 
-    background-color: black;
-    transition: all 0.3s ease-in-out;
-}
+            background-color: black;
+            transition: all 0.3s ease-in-out;
+        }
 
-.navbar-toggler.active .bar:nth-child(1) {
-    transform: rotate(45deg) translate(4px, 4px);
-    text-align: center;
-}
+        .navbar-toggler.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+            text-align: center;
+        }
 
-.navbar-toggler.active .bar:nth-child(2) {
-    opacity: 0;
-}
+        .navbar-toggler.active .bar:nth-child(2) {
+            opacity: 0;
+        }
 
-.navbar-toggler.active .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(4px, -4px);
-    text-align: center;
-}
-.navbar-toggler.active .bar:nth-child(4) {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 75%;
-    height: 85%;
+        .navbar-toggler.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+            text-align: center;
+        }
 
-    border: 3px solid black;
-    text-align: center;
-    background: none;
-    z-index: -1;
-    padding-bottom: 8px;
-}
+        .navbar-toggler.active .bar:nth-child(4) {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 75%;
+            height: 85%;
 
- .navbar-toggler.active {
-     position: relative;
-    width: 40px;
-    height: 40px;
+            border: 3px solid black;
+            text-align: center;
+            background: none;
+            z-index: -1;
+            padding-bottom: 8px;
+        }
 
-
-
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    background-color: transparent;
-    z-index: 10;
+        .navbar-toggler.active {
+            position: relative;
+            width: 40px;
+            height: 40px;
 
 
 
-}
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background-color: transparent;
+            z-index: 10;
+
+
+
+        }
 
 
 
@@ -100,11 +102,12 @@ margin-right: 15px;
                 margin-top: 10px;
             }
 
-             .dropdown-menu hr {
-    display: block; /* Montre les <hr> */
-    margin: 6px 0;
-    border-color: #eee;
-  }
+            .dropdown-menu hr {
+                display: block;
+                /* Montre les <hr> */
+                margin: 6px 0;
+                border-color: #eee;
+            }
 
             #mainNav.show {
                 display: flex;
@@ -123,9 +126,10 @@ margin-right: 15px;
                 display: flex;
                 justify-content: flex-end;
             }
-               h1 {
-    font-size: 28px;
-  }
+
+            h1 {
+                font-size: 28px;
+            }
 
 
 
@@ -156,31 +160,41 @@ margin-right: 15px;
                 <a class="nav-link text-dark" href="https://site.fluidpay.link/#fonctionnalites">Fonctionnalités</a>
             </li>
             <li class="nav-item dropdown me-5">
-                <a class="nav-link text-dark d-flex align-items-center" href="#" id="ressourceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link text-dark d-flex align-items-center" href="#" id="ressourceDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Ressources
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ms-1 bi bi-caret-down-fill" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14l-4.796-5.481A.5.5 0 0 1 2.5 5h11a.5.5 0 0 1 .384.82l-4.796 5.48a.5.5 0 0 1-.768 0z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="ms-1 bi bi-caret-down-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M7.247 11.14l-4.796-5.481A.5.5 0 0 1 2.5 5h11a.5.5 0 0 1 .384.82l-4.796 5.48a.5.5 0 0 1-.768 0z" />
                     </svg>
                 </a>
                 <ul class="dropdown-menu shadow-sm border-0 rounded-3 mt-2 py-2" style="min-width: 220px;">
                     <li><a class="dropdown-item py-2 px-3" href="https://site.fluidpay.link/blog/">Blog</a></li>
-                    <li><hr class="dropdown-divider my-1"></li>
+                    <li>
+                        <hr class="dropdown-divider my-1">
+                    </li>
                     <li><a class="dropdown-item py-2 px-3" href="{{ url('/') }}">Calculateur de salaire</a></li>
-                    <li><hr class="dropdown-divider my-1"></li>
-                    <li><a class="dropdown-item py-2 px-3" href="https://notebooklm.google.com/notebook/4d765894-d017-4199-9964-b15cb406e3d8">Assistant RH intelligent</a></li>
+                    <li>
+                        <hr class="dropdown-divider my-1">
+                    </li>
+                    <li><a class="dropdown-item py-2 px-3"
+                            href="https://notebooklm.google.com/notebook/4d765894-d017-4199-9964-b15cb406e3d8">Assistant
+                            RH intelligent</a></li>
                 </ul>
             </li>
             <li class="nav-item me-5">
-                <a class="nav-link text-dark" href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1">Contact</a>
+                <a class="nav-link text-dark"
+                    href="https://crm.fluidpay.link/forms/quote/4a3d5cf45c821ae6a1095184c2bc2042?styled=1&with_logo=1">Contact</a>
             </li>
 
             <!-- Bouton Démo (affiché en responsive aussi) -->
             <li class="nav-item">
-               <a href="https://crm.fluidpay.link/forms/wtl/90c59c34eb649f5ffc229dcab952ec21?styled=1&with_logo=1"
-   class="otn btn-sm text-white demo-btn"
-   style="background-color: #273584; border-radius: 28px; padding: 10px 16px; min-width: 210px; font-size: 16px; line-height: 1.6; text-align: center; font-style: normal; transition: all 0.3s ease; display: inline-block;">
-    Demander une démo
-</a>
+                <a href="https://crm.fluidpay.link/forms/wtl/90c59c34eb649f5ffc229dcab952ec21?styled=1&with_logo=1"
+                    class="otn btn-sm text-white demo-btn"
+                    style="background-color: #273584; border-radius: 28px; padding: 10px 16px; min-width: 210px; font-size: 16px; line-height: 1.6; text-align: center; font-style: normal; transition: all 0.3s ease; display: inline-block;">
+                    Demander une démo
+                </a>
 
             </li>
         </ul>
