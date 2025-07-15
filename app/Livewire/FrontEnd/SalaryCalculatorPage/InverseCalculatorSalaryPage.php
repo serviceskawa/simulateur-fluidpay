@@ -76,19 +76,19 @@ class InverseCalculatorSalaryPage extends Component
     }
 
     /* --- Taxe spécifique selon le mois et le salaire brut --- */
-   public function getSpecificTax(string $month, float $salaireNet = 0): array
+  public function getSpecificTax(string $month, float $salaireNet = 0): array
 {
     $m = strtolower($month);
 
-    // Taxe spécifique pour mars uniquement si le salaire est ≥ 60000
-    if ($m === 'mars' && $salaireNet >= 60000) {
-        return ['montant' => 1000, 'label' => 'Taxe Radiophonique'];
-    }
-
-    // Autres taxes spécifiques, sans condition sur le salaire
+    // Taxes spécifiques
     $taxes = [
-        'juin' => ['montant' => 3000, 'label' => 'Taxe Télévisuelle'],
+        'mars' => ['montant' => 1000, 'label' => 'Taxe Radiophonique'],
     ];
+
+    // Taxe spécifique pour juin uniquement si le salaire est ≥ 60000
+    if ($m === 'juin' && $salaireNet >= 60000) {
+        return ['montant' => 3000, 'label' => 'Taxe Télévisuelle'];
+    }
 
     return $taxes[$m] ?? ['montant' => 0, 'label' => 'Aucune taxe spécifique'];
 }

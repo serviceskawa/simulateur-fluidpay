@@ -130,7 +130,7 @@
         <x-form.modal :show="$showModal">
     <div class="p-3 mx-auto" style="max-width: 800px;">
         <div class="modal-dialog modal-dialog-scrollable" style="max-height: 90vh;">
-            <h2 class="fs-5 fw-bold mb-3">Générer la Fiche de Paie</h2>
+            <h2 class="fs-5 fw-bold mb-3">Générer la fiche de paie</h2>
         </div>
 
         <div class="modal-body p-4">
